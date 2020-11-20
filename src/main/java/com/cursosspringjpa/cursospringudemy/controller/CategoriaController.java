@@ -1,10 +1,13 @@
 package com.cursosspringjpa.cursospringudemy.controller;
 
-import java.util.ArrayList;
 
 import com.cursosspringjpa.cursospringudemy.model.Categoria;
+import com.cursosspringjpa.cursospringudemy.service.CategoriaService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,16 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/categorias")
 public class CategoriaController {
     
-    @GetMapping()
-    public ArrayList<Categoria> listar(){
+    @Autowired
+    private CategoriaService srvc;
 
-        Categoria cat1 = new Categoria(1, "Informática");
-        Categoria cat2 = new Categoria(1, "Escritório");
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listar(@PathVariable Integer id){
 
-        ArrayList<Categoria> lista = new ArrayList<>();
-        lista.add(cat1);
-        lista.add(cat2);
-
-        return lista;
+        Categoria cat = srvc.buscar(id);
+        
+        return ResponseEntity.ok(cat);
     }
 }
