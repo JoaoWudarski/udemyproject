@@ -4,13 +4,17 @@ import java.util.Arrays;
 
 import com.cursosspringjpa.cursospringudemy.model.Categoria;
 import com.cursosspringjpa.cursospringudemy.model.Cidade;
+import com.cursosspringjpa.cursospringudemy.model.Cliente;
+import com.cursosspringjpa.cursospringudemy.model.Endereco;
 import com.cursosspringjpa.cursospringudemy.model.Estado;
 import com.cursosspringjpa.cursospringudemy.model.Produto;
+import com.cursosspringjpa.cursospringudemy.model.enums.TipoCliente;
 import com.cursosspringjpa.cursospringudemy.repository.CategoriaRepository;
 import com.cursosspringjpa.cursospringudemy.repository.CidadeRepository;
+import com.cursosspringjpa.cursospringudemy.repository.ClienteRepository;
+import com.cursosspringjpa.cursospringudemy.repository.EnderecoRepository;
 import com.cursosspringjpa.cursospringudemy.repository.EstadoRepository;
 import com.cursosspringjpa.cursospringudemy.repository.ProdutoRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,6 +34,12 @@ public class CursospringudemyApplication implements CommandLineRunner{
 
 	@Autowired
 	private CidadeRepository repCid;
+
+	@Autowired
+	private ClienteRepository repCli;
+
+	@Autowired
+	private EnderecoRepository repEnd;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursospringudemyApplication.class, args);
@@ -67,6 +77,18 @@ public class CursospringudemyApplication implements CommandLineRunner{
 
 		repEst.saveAll(Arrays.asList(est1, est2));
 		repCid.saveAll(Arrays.asList(c1, c2, c3));
+
+
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("(27)3632-3234", "(11)3284-7530"));
+
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", null, "Parque das arvores", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "sala 800", "Centro", "38777012", cli1, c2);
+
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+
+		repCli.saveAll(Arrays.asList(cli1));
+		repEnd.saveAll(Arrays.asList(e1, e2));
 	}
 
 }
