@@ -1,5 +1,6 @@
 package com.cursosspringjpa.cursospringudemy;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import com.cursosspringjpa.cursospringudemy.model.Categoria;
@@ -7,13 +8,20 @@ import com.cursosspringjpa.cursospringudemy.model.Cidade;
 import com.cursosspringjpa.cursospringudemy.model.Cliente;
 import com.cursosspringjpa.cursospringudemy.model.Endereco;
 import com.cursosspringjpa.cursospringudemy.model.Estado;
+import com.cursosspringjpa.cursospringudemy.model.Pagamento;
+import com.cursosspringjpa.cursospringudemy.model.PagamentoBoleto;
+import com.cursosspringjpa.cursospringudemy.model.PagamentoCartao;
+import com.cursosspringjpa.cursospringudemy.model.Pedido;
 import com.cursosspringjpa.cursospringudemy.model.Produto;
+import com.cursosspringjpa.cursospringudemy.model.enums.EstadoPagamento;
 import com.cursosspringjpa.cursospringudemy.model.enums.TipoCliente;
 import com.cursosspringjpa.cursospringudemy.repository.CategoriaRepository;
 import com.cursosspringjpa.cursospringudemy.repository.CidadeRepository;
 import com.cursosspringjpa.cursospringudemy.repository.ClienteRepository;
 import com.cursosspringjpa.cursospringudemy.repository.EnderecoRepository;
 import com.cursosspringjpa.cursospringudemy.repository.EstadoRepository;
+import com.cursosspringjpa.cursospringudemy.repository.PagamentoRepository;
+import com.cursosspringjpa.cursospringudemy.repository.PedidoRepository;
 import com.cursosspringjpa.cursospringudemy.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -40,6 +48,12 @@ public class CursospringudemyApplication implements CommandLineRunner{
 
 	@Autowired
 	private EnderecoRepository repEnd;
+
+	@Autowired
+	private PagamentoRepository repPag;
+
+	@Autowired
+	private PedidoRepository repPed;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursospringudemyApplication.class, args);
@@ -89,6 +103,22 @@ public class CursospringudemyApplication implements CommandLineRunner{
 
 		repCli.saveAll(Arrays.asList(cli1));
 		repEnd.saveAll(Arrays.asList(e1, e2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+
+		Pagamento pagto1 = new PagamentoCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		Pagamento pagto2 = new PagamentoBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("22/10/2017 00:00"), null);
+		ped2.setPagamento(pagto2);
+
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		repPed.saveAll(Arrays.asList(ped1, ped2));
+		repPag.saveAll(Arrays.asList(pagto1, pagto2));
+
 	}
 
 }
