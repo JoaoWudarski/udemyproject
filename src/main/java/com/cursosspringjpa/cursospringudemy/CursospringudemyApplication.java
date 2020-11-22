@@ -8,6 +8,7 @@ import com.cursosspringjpa.cursospringudemy.model.Cidade;
 import com.cursosspringjpa.cursospringudemy.model.Cliente;
 import com.cursosspringjpa.cursospringudemy.model.Endereco;
 import com.cursosspringjpa.cursospringudemy.model.Estado;
+import com.cursosspringjpa.cursospringudemy.model.ItemPedido;
 import com.cursosspringjpa.cursospringudemy.model.Pagamento;
 import com.cursosspringjpa.cursospringudemy.model.PagamentoBoleto;
 import com.cursosspringjpa.cursospringudemy.model.PagamentoCartao;
@@ -20,6 +21,7 @@ import com.cursosspringjpa.cursospringudemy.repository.CidadeRepository;
 import com.cursosspringjpa.cursospringudemy.repository.ClienteRepository;
 import com.cursosspringjpa.cursospringudemy.repository.EnderecoRepository;
 import com.cursosspringjpa.cursospringudemy.repository.EstadoRepository;
+import com.cursosspringjpa.cursospringudemy.repository.ItemPedidoRepository;
 import com.cursosspringjpa.cursospringudemy.repository.PagamentoRepository;
 import com.cursosspringjpa.cursospringudemy.repository.PedidoRepository;
 import com.cursosspringjpa.cursospringudemy.repository.ProdutoRepository;
@@ -54,6 +56,9 @@ public class CursospringudemyApplication implements CommandLineRunner{
 
 	@Autowired
 	private PedidoRepository repPed;
+
+	@Autowired
+	private ItemPedidoRepository repIte;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursospringudemyApplication.class, args);
@@ -119,6 +124,19 @@ public class CursospringudemyApplication implements CommandLineRunner{
 		repPed.saveAll(Arrays.asList(ped1, ped2));
 		repPag.saveAll(Arrays.asList(pagto1, pagto2));
 
+
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.0);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.0, 2, 80.0);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.0, 1, 800.0);
+
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+
+		repIte.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 
 }
