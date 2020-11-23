@@ -5,11 +5,16 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.cursosspringjpa.cursospringudemy.model.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class PagamentoBoleto extends Pagamento {
     private static final long serialVersionUID = 1L;
+    
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date datavencimento;
+    
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date datapagamento;
 
     public PagamentoBoleto() {
