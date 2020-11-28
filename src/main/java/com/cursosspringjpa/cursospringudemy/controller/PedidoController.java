@@ -19,8 +19,8 @@ public class PedidoController {
     private PedidoService srvc;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> listar(@PathVariable Integer id){
-        Pedido cat = srvc.buscar(id);
+    public ResponseEntity<Pedido> listar(@PathVariable Integer id){
+        Pedido cat = srvc.find(id);
         
         return ResponseEntity.ok(cat);
     }

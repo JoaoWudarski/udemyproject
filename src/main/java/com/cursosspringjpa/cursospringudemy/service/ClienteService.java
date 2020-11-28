@@ -16,7 +16,7 @@ public class ClienteService {
     @Autowired
     private ClienteRepository rep;
 
-    public Cliente buscar(Integer id){
+    public Cliente find(Integer id){
         Optional<Cliente> op = rep.findById(id);
         
         return op.orElseThrow( () -> new ResponseStatusException

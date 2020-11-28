@@ -19,9 +19,9 @@ public class ClienteController {
     private ClienteService srvc;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> listar(@PathVariable Integer id){
+    public ResponseEntity<Cliente> listar(@PathVariable Integer id){
 
-        Cliente cat = srvc.buscar(id);
+        Cliente cat = srvc.find(id);
         
         return ResponseEntity.ok(cat);
     }

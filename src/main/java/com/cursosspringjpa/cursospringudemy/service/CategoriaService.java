@@ -16,7 +16,7 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository rep;
 
-    public Categoria buscar(Integer id){
+    public Categoria find(Integer id){
         Optional<Categoria> op = rep.findById(id);
         
         return op.orElseThrow( () -> new ResponseStatusException
@@ -26,6 +26,11 @@ public class CategoriaService {
 
     public Categoria insert(Categoria obj){
         obj.setId(null);
+        return rep.save(obj);
+    }
+
+    public Categoria update(Categoria obj){
+        find(obj.getId());
         return rep.save(obj);
     }
 }

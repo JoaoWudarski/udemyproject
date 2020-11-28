@@ -16,7 +16,7 @@ public class PedidoService {
     @Autowired
     private PedidoRepository rep;
 
-    public Pedido buscar(Integer id){
+    public Pedido find(Integer id){
         Optional<Pedido> op = rep.findById(id);
         
         return op.orElseThrow( () -> new ResponseStatusException
