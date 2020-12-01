@@ -3,6 +3,7 @@ package com.cursosspringjpa.cursospringudemy.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.cursosspringjpa.cursospringudemy.dto.CategoriaDTO;
 import com.cursosspringjpa.cursospringudemy.model.Categoria;
 import com.cursosspringjpa.cursospringudemy.repository.CategoriaRepository;
 
@@ -56,5 +57,9 @@ public class CategoriaService {
         PageRequest pageRequest = PageRequest.of(pg, linesPerpage, Sort.Direction.valueOf(direction), orderBy);
 
         return rep.findAll(pageRequest);
+    }
+
+    public Categoria fromDTO(CategoriaDTO objdto){
+        return new Categoria(objdto.getId(), objdto.getNome());
     }
 }

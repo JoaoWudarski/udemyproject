@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import com.cursosspringjpa.cursospringudemy.dto.CategoriaDTO;
 import com.cursosspringjpa.cursospringudemy.model.Categoria;
 import com.cursosspringjpa.cursospringudemy.service.CategoriaService;
@@ -46,8 +48,9 @@ public class CategoriaController {
         return ResponseEntity.ok(cat);
     }
 
-    @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody Categoria obj){
+    @PostMapping()
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objdto){
+        Categoria obj = srvc.fromDTO(objdto);
         obj = srvc.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
     
@@ -55,7 +58,8 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Categoria> update(@PathVariable Integer id, @RequestBody Categoria obj){
+    public ResponseEntity<Categoria> update(@PathVariable Integer id, @Valid @RequestBody CategoriaDTO objdto){
+        Categoria obj = srvc.fromDTO(objdto);
         obj.setId(id);
         obj = srvc.update(obj);
 
