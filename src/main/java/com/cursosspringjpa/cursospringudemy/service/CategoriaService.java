@@ -8,6 +8,9 @@ import com.cursosspringjpa.cursospringudemy.repository.CategoriaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -47,5 +50,11 @@ public class CategoriaService {
 
     public List<Categoria> findAll(){
         return rep.findAll();
+    }
+
+    public Page<Categoria> findPage(int pg, int linesPerpage, String orderBy, String direction){
+        PageRequest pageRequest = PageRequest.of(pg, linesPerpage, Sort.Direction.valueOf(direction), orderBy);
+
+        return rep.findAll(pageRequest);
     }
 }
