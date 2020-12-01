@@ -1,7 +1,10 @@
 package com.cursosspringjpa.cursospringudemy.controller;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import com.cursosspringjpa.cursospringudemy.dto.CategoriaDTO;
 import com.cursosspringjpa.cursospringudemy.model.Categoria;
 import com.cursosspringjpa.cursospringudemy.service.CategoriaService;
 
@@ -24,8 +27,17 @@ public class CategoriaController {
     @Autowired
     private CategoriaService srvc;
 
+    @GetMapping()
+    public ResponseEntity<List<CategoriaDTO>> findAll(){
+
+        List<Categoria> list = srvc.findAll();
+        List<CategoriaDTO> listdto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+
+        return ResponseEntity.ok(listdto);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> listar(@PathVariable Integer id){
+    public ResponseEntity<Categoria> find(@PathVariable Integer id){
 
         Categoria cat = srvc.find(id);
         

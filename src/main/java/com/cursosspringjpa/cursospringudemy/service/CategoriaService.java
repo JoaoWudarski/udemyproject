@@ -1,5 +1,6 @@
 package com.cursosspringjpa.cursospringudemy.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.cursosspringjpa.cursospringudemy.model.Categoria;
@@ -42,5 +43,9 @@ public class CategoriaService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Não é possível excluir categoria que possui produtos"));
         }
         
+    }
+
+    public List<Categoria> findAll(){
+        return rep.findAll();
     }
 }
