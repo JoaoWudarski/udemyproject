@@ -6,6 +6,7 @@ import com.cursosspringjpa.cursospringudemy.model.Categoria;
 import com.cursosspringjpa.cursospringudemy.repository.CategoriaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,5 +33,14 @@ public class CategoriaService {
     public Categoria update(Categoria obj){
         find(obj.getId());
         return rep.save(obj);
+    }
+
+    public void delete(Integer id){
+        try {
+            rep.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Não é possível excluir categoria que possui produtos"));
+        }
+        
     }
 }
