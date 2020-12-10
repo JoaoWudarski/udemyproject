@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.cursosspringjpa.cursospringudemy.dto.ClienteDTO;
+import com.cursosspringjpa.cursospringudemy.dto.ClienteNewDTO;
 import com.cursosspringjpa.cursospringudemy.model.Cliente;
 import com.cursosspringjpa.cursospringudemy.service.ClienteService;
 
@@ -78,5 +79,13 @@ public class ClienteController {
         return ResponseEntity.ok(listdto);
     }
 
+    @PostMapping()
+    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objdto){
+        Cliente obj = srvc.fromDTO(objdto);
+        obj = srvc.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+    
+        return ResponseEntity.created(uri).build();
+    }
     
 }
