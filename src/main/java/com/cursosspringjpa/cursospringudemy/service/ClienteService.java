@@ -49,7 +49,7 @@ public class ClienteService {
 
     public void delete(Integer id){
         try {
-            rep.deleteById(id);
+            rep.delete(find(id));
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Não é possível excluir cliente com entidades relacionadas"));
         }
